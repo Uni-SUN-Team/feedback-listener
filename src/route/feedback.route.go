@@ -7,5 +7,5 @@ import (
 )
 
 func Feedback(g *gin.RouterGroup) {
-	g.GET("/feedbacks", controller.TestGetFeedback)
+	g.GET("/feedbacks/:id", controller.GetFeedbackById)
 }

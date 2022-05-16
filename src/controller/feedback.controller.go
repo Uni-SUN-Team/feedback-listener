@@ -7,8 +7,9 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func TestGetFeedback(c *gin.Context) {
-	result := service.GetFeedbackSumAndCount()
+func GetFeedbackById(c *gin.Context) {
+	id := c.Param("id")
+	result := service.GetFeedbackSumAndCount(id)
 	result.Score = float32(result.Sum / result.Count)
 	c.JSON(http.StatusOK, result)
 }
