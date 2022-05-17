@@ -3,7 +3,7 @@ package config
 import "os"
 
 func ConfigENV() {
-	os.Setenv("PORT", "8080")
+	os.Setenv("PORT", "8081")
 	os.Setenv("CONTEXT_PATH", "/feedback-processor-api")
 	// DB
 	os.Setenv("DB_HOST", "unisun.dynu.com")
