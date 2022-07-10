@@ -2,12 +2,18 @@ package utils
 
 import (
 	"bytes"
-	"log"
 	"net/http"
 	"time"
+	"unisun/api/feedback-processor-api/src/constants"
 )
 
-func HTTPRequest(url string, method string, payload []byte) *http.Response {
+type UtilsHTTPRequestAdapter struct{}
+
+func NewUtilsHTTPRequestAdapter() *UtilsHTTPRequestAdapter {
+	return &UtilsHTTPRequestAdapter{}
+}
+
+func (*UtilsHTTPRequestAdapter) HTTPRequest(url string, method string, payload []byte) (*http.Response, error) {
 	var request *http.Request
 	var err error
 	var body *bytes.Buffer
@@ -22,28 +28,28 @@ func HTTPRequest(url string, method string, payload []byte) *http.Response {
 		Transport: tr,
 	}
 	switch method {
-	case "GET":
+	case constants.GET:
 		body = bytes.NewBuffer(nil)
-	case "POST":
+	case constants.POST:
 		body = bytes.NewBuffer(payload)
-	case "PUT":
+	case constants.PUT:
 		body = bytes.NewBuffer(payload)
-	case "DELETE":
+	case constants.DELETE:
 		body = bytes.NewBuffer(nil)
 	default:
 		body = bytes.NewBuffer(nil)
 	}
 	if err != nil {
-		log.Println("Create request error.", err.Error())
+		return nil, err
 	}
 	request, err = http.NewRequest(method, url, body)
 	if err != nil {
-		log.Println("Client request to "+url+" is not success.", err.Error())
+		return nil, err
 	}
 	request.Header.Add("Content-type", "application/json")
 	response, err := client.Do(request)
 	if err != nil {
-		log.Println("Client is error.", err.Error())
+		return nil, err
 	}
-	return response
+	return response, nil
 }

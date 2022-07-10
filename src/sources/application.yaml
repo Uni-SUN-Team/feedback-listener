@@ -1,0 +1,12 @@
+app:
+    env: "development"
+    port: 8080
+    context_path: "/feedback-listener"
+    host: "localhost"
+    root_path: "/api"
+    version: 1.0.0
+endpoint:
+    strapi-information-gateway:
+        host: "http://localhost:8080"
+        path: "/strapi-information-gateway/api/v1/strapi"
+GIN_MODE: "debug"

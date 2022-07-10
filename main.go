@@ -1,19 +1,20 @@
 package main
 
 import (
-	"os"
+	"log"
 	"unisun/api/feedback-processor-api/src"
-	"unisun/api/feedback-processor-api/src/config"
-	"unisun/api/feedback-processor-api/src/constants"
+	"unisun/api/feedback-processor-api/src/configs"
+
+	"github.com/spf13/viper"
 )
 
 func main() {
-	if os.Getenv(constants.NODE) != constants.PRODUCTION {
-		config.ConfigENV()
+	envService := configs.New("app", "./src/resource")
+	if err := envService.ConfigENV(); err != nil {
+		log.Panic(err)
 	}
-	config.ConnectDatabase()
 	r := src.App()
-	port := os.Getenv(constants.PORT)
+	port := viper.GetString("app.port")
 	if port == "" {
 		r.Run(":8080")
 	} else {
